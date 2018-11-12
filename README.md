@@ -27,3 +27,7 @@ $ go run $GOPATH/src/github.com/mngibson/simple_chat/main.go
 Go to http://localhost:8080 in two or more browser tabs.  Choose a name under "Who are you?" to signify what name you'll be sending messges under.  Chose a name under "Who are you chatting with?" to signify who you will be sending messages to.  Use the "Send" button and text input to send messages.
 
 ## Design Notes
+
+simple_chat uses [Knockout](https://knockoutjs.com/) for simple reactivity, [Bootstrap](https://getbootstrap.com/) for layout and css on the frontend.  The backend is written in Go and uses [Gorilla Mux](https://github.com/gorilla/mux) for routing.
+
+Messages are stored using [go-cache](https://github.com/patrickmn/go-cache), an in-memory key:value store similar to Memcached.  Messages will not be preserved between server starts.
