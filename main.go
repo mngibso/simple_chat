@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/mngibson/simple_chat/handlers"
 	"log"
 	"net/http"
 
@@ -11,7 +12,8 @@ import (
 
 func main() {
 	r := mux.NewRouter()
-	//r.HandleFunc("/", handlers.Home)
+	r.HandleFunc("/api/messages", handlers.Messages).Methods("GET")
+	r.HandleFunc("/api/messages", handlers.SetMessages).Methods("POST")
 	// r.HandleFunc("/products", ProductsHandler)
 	// r.HandleFunc("/articles", ArticlesHandler)
 	//http.Handle("/", r)

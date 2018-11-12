@@ -51,17 +51,20 @@
         <div class="col-8">
             <form>
                 <div style="min-height:300px;vertical-align:text-bottom;" class="align-bottom chat-box border">
-                   <ul class="list-unstyled">
-
-                       <li><em>Annabelle</em>: this is a message</li>
-                    <li><em>Clarice</em>: this is the second message</li>
+                   <ul class="list-unstyled" data-bind="foreach:{data: messages, as:'message'}">
+                       <li data-bind="text: message"></li>
                    </ul>
                 </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary" type="button">Send</button>
+                    <button class="btn btn-outline-secondary" type="button"
+                    data-bind="click: sendMessage,
+                             enable: canSend" >Send</button>
                 </div>
-                <input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+                <input id="submitText" type="text" class="form-control" placeholder=""
+                       data-bind="value: submitText,
+                       enable: canSend"
+                       aria-label="" aria-describedby="basic-addon1">
             </div>
             </form>
         </div>
@@ -69,10 +72,9 @@
 </div>
 
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha256-3edrmyuQ0w65f8gfBsqowzjJe2iM6n0nKciPUp8y+7E="
-        crossorigin="anonymous"></script>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="/3rdParty/knockout.min.js"></script>
 <script type="text/javascript" src="/home.js"></script>
 <script>
