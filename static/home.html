@@ -33,7 +33,7 @@
                     >Anabelle</label>
                 </div>
                 </span>
-                <p style="margin-top:15px;font-weight:700">Who are you chatting with?</p>
+                <p style="margin-top:15px;font-weight:700">Who will recieve your messages?</p>
                 <span data-bind="foreach: {data:youAres, as:'user'}">
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="youAre"
@@ -49,7 +49,7 @@
             </form>
         </div>
         <div class="col-8">
-            <form>
+            <form data-bind="submit:sendMessage">
                 <div style="min-height:300px;vertical-align:text-bottom;" class="align-bottom chat-box border">
                    <ul class="list-unstyled" data-bind="foreach:{data: messages, as:'message'}">
                        <li data-bind="text: message"></li>

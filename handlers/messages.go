@@ -11,11 +11,20 @@ import (
 	"github.com/mngibson/simple_chat/data/transport"
 )
 
-// NewId returns an ID formed of two string arrays containing users
+// NewId returns an ID formed of two string arrays containing user names.
+// The names are arranged in alphabetical order to ensure consistency.
 func NewID(u1,u2 []string) string {
 	// join and sort to create a consistent id
-	return strings.Join(sort.StringSlice(append(u1,u2...)),"-")
+	a := append(u1,u2...)
+	sort.Strings(a)
+	fmt.Println(a)
+
+	out := strings.Join(a,"-")
+	fmt.Println("NewId",out)
+	return out
 }
+
+// storage holds the storage implementation
 var storage transport.MessageStorer
 
 // init sets up new message storage
@@ -23,9 +32,11 @@ func init() {
 	storage = transport.NewCache()
 }
 
-// Messages returns the messages for a Chat
+// Messages (GET) returns the messages for a chat
 func Messages(rw http.ResponseWriter, r *http.Request) {
 	fmt.Println("Messages")
+
+	// Should have users on the query tring
 	u1, ok := r.URL.Query()["u1"]
 	if ok == false || len(u1) == 0 {
 		http.Error(rw, "query parameters missing",  http.StatusBadRequest)
@@ -36,8 +47,8 @@ func Messages(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "query parameters missing",  http.StatusBadRequest)
 		return
 	}
-	//fmt.Println("Get Messages", u1, u2)
-	// Query storage
+
+	// Query storage for any messages
 	chat,err := storage.Get(NewID(u1,u2))
 	if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
@@ -60,27 +71,24 @@ func Messages(rw http.ResponseWriter, r *http.Request) {
 	rw.Write(data)
 }
 
+// postBody is a struct containing values sent in a POST
 type postBody struct {
 	U1 string `json:"u1"`
 	U2 string `json:"u2"`
 	Message string `json:"message"`
 }
-// SetMessages adds a message to a chat
+// SetMessages (POST) adds a message to a chat
 func SetMessages(rw http.ResponseWriter, r *http.Request) {
 	fmt.Println("SetMessages")
-	//r.ParseForm()
-	fmt.Println(r.URL.Query())
-
-	fmt.Println(r.Form)
 	message := postBody{}
+
 	// Get the body
 	b, err := ioutil.ReadAll(r.Body); if err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	fmt.Println(string(b))
-	// Unmarshall body into string map
+	// The body should be a postBody
 	err = json.Unmarshal(b, &message); if err != nil {
 		fmt.Println("could not unmarshall post body")
 		fmt.Println(err)
@@ -97,6 +105,7 @@ func SetMessages(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// return 201, created
 	rw.WriteHeader(http.StatusCreated)
 	rw.Header().Set("Content-Type", "application/json")
 }

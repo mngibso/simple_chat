@@ -1,3 +1,4 @@
+// package schemas contains common structs for simple chat
 package schemas
 
 import "time"
@@ -17,7 +18,7 @@ type Message struct {
 	Created time.Time
 }
 
-// Return a pointer to an initialized Chat
+// NewChate return a pointer to an initialized Chat object
 func NewChat(ID string) *Chat {
 	return &Chat{
 		ID,
