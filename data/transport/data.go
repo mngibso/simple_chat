@@ -13,7 +13,7 @@ import (
 // MessageStorer declares the interface used to store chat messages
 type MessageStorer interface {
 	Get(ID string) (*schemas.Chat, error)
-	Add(ID, schemas string) error
+	Add(ID, message string) error
 	Delete(ID, message string) error
 }
 
