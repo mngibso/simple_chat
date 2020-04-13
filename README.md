@@ -19,7 +19,8 @@ The following command will donwload `simple_chat` and install it in `$GOPATH/src
 ## Start simple_chat
 
 ```
-$ go run $GOPATH/src/github.com/mngibson/simple_chat/main.go
+$ cd $GOPATH/src/github.com/mngibson/simple_chat
+$ go run main.go
  Server starting on port: 8080
 ```
 ## Use simple_chat
